@@ -1,0 +1,13 @@
+Dry,Wet,Combined
+N,313,396,709
+Mean,2.199,3.645,3.007
+SD,4.792,9.245,7.637
+Median,1.45,1.94,1.66
+Min,0.05,0.05,0.05
+Max,78,142,142
+Diff,NA,NA,0.41
+Wilcoxon.p.value.between,NA,NA,2e-04
+95%.LCL.between,NA,NA,0.18
+95%.UCL.between,NA,NA,0.65
+NA's,48,31,79
+N.Total,361,427,788
