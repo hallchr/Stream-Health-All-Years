@@ -1,4 +1,5 @@
 #subsets necessary
+#Which subsets are neccessary?
 
 AllCountsAmbientSubTN <- subset(AllCountsAmbient, !is.na(TN))
 AllCountsAmbientSubTP <- subset(AllCountsAmbient, !is.na(TP))
