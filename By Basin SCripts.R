@@ -2075,7 +2075,7 @@ write.table(Pb_Table_Basin, file = "Pb_Table_Basin.txt", sep = ",", quote = FALS
 
 
 #LNC BIBI
-tiff("BIBI_LNC.tiff", units="in", width=15, height=3.5, res=500)
+tiff("BIBI_LNC.tiff", units="in", width=15, height=4, res=500)
 ggplot(subset(AllCountsAmbientSubBIBI, Monitoring.Basin == "Lower North Creek"), aes(Site, BIBI)) + 
   facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(width = 0.4, color = "darkcyan", alpha = 0.7)  +
   stat_summary(fun.y= "mean", colour="black", geom="point", 
@@ -2088,7 +2088,7 @@ ggplot(subset(AllCountsAmbientSubBIBI, Monitoring.Basin == "Lower North Creek"),
 dev.off()
 
 #LNC TEMP/DO
-tiff("DO_LNC.tiff", units="in", width=15, height=3.5, res=500)
+tiff("DO_LNC.tiff", units="in", width=15, height=5, res=500)
 ggplot(subset(AllCountsAmbientSummer, Monitoring.Basin == "Lower North Creek"), aes(Site, DO)) + 
   facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(width = 0.4, color = "darkcyan", alpha = 0.7)  +
   stat_summary(fun.y= "mean", colour="black", geom="point", 
@@ -2099,7 +2099,7 @@ ggplot(subset(AllCountsAmbientSummer, Monitoring.Basin == "Lower North Creek"), 
                      axis.text.y = element_text(size = 12), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 dev.off()
 
-tiff("Temp_LNC.tiff", units="in", width=15, height=3.5, res=500)
+tiff("Temp_LNC.tiff", units="in", width=15, height=5, res=500)
 ggplot(subset(AllCountsAmbientSummer, Monitoring.Basin == "Lower North Creek"), aes(Site, TEMP)) + 
   facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(width = 0.4, color = "darkcyan", alpha = 0.7)  +
   stat_summary(fun.y= "mean", colour="black", geom="point", 
@@ -2110,7 +2110,7 @@ ggplot(subset(AllCountsAmbientSummer, Monitoring.Basin == "Lower North Creek"), 
                      axis.text.y = element_text(size = 12), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 dev.off()
 #LNC Turbidity
-tiff("Turb_LNC.tiff", units="in", width=15, height=3.5, res=500)
+tiff("Turb_LNC.tiff", units="in", width=15, height=5, res=500)
 ggplot(subset(AllCountsAmbient, Monitoring.Basin == "Lower North Creek"), aes(Site, Turbidity)) + 
   facet_wrap(~Monitoring.Basin, ncol = 1) + geom_boxplot(width = 0.4, color = "darkcyan", alpha = 0.7)  +
   stat_summary(fun.y= "mean", colour="black", geom="point", 
