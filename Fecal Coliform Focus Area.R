@@ -201,13 +201,21 @@ FecalFOcus2010graph <- ggplot(FecalFocus2009_2015, aes(Site, Fecal.Coliform)) + 
   theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, vjust = 0.6),
                      axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
 
+tiff("FC_Focus_Area_2009_2015.tiff", units="in", width=11, height=6, res=500)
 grid.arrange(FecalFOcus2010graph, FecalFocus2015graph, nrow = 1)
+dev.off()
 
 FC_Table_Focus_Area2010 <- summaryStats(Fecal.Coliform ~ Site, data = FecalFocus2009_2015, digits=3, p.value=FALSE, stats.in.rows=TRUE,
                                     test.arg.list=list(var.equal = FALSE, test="nonparametric"))
 
+write.table(FC_Table_Focus_Area2010, file = "FC_Table_Focus_Area2010.txt", sep = ",", quote = FALSE, row.names = TRUE)
+
+
 FC_Table_Focus_Area2015 <- summaryStats(Fecal.Coliform ~ Site, data = FecalFocus2015_2020, digits=3, p.value=FALSE, stats.in.rows=TRUE,
                                     test.arg.list=list(var.equal = FALSE, test="nonparametric"))
+
+write.table(FC_Table_Focus_Area2015, file = "FC_Table_Focus_Area2015.txt", sep = ",", quote = FALSE, row.names = TRUE)
+
 
 #By Year
 
