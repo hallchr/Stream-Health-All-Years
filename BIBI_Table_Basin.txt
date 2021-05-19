@@ -1,0 +1,9 @@
+ ,Horse Creek,Little Swamp Creek,Lower North Creek,Lower Sammamish River,Parr Creek,Perry Creek,Upper North Creek,Upper Sammamish River
+N,0,7,0,17,7,1,4,4,0
+Mean,NA,4.071,NA,26.1,18.629,15.6,21.2,17.875,NA
+SD,NA,4.362,NA,13.885,10.294,NA,1.265,7.133,NA
+Median,NA,2.8,NA,23.7,22.5,15.6,21.4,15.25,NA
+Min,NA,0,NA,1.4,0.5,15.6,19.6,12.6,NA
+Max,NA,13.3,NA,60.2,29.8,15.6,22.4,28.4,NA
+NA's,1,215,119,507,84,113,162,154,44
+N.Total,1,222,119,524,91,114,166,158,44
