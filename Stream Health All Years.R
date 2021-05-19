@@ -22,7 +22,8 @@ library(psych)
 library(shiny)
 
 #path of spreadsheet
-dbPath1 <- "TMDL_Stream_2010-2019_V3.xlsx"
+#OLD = dbPath1 <- "TMDL_Stream_2010-2019_V3.xlsx"
+dbPath1 <- "G:/PW_UtilityEng/STORM/Programs/Monitoring/R Stats/Projects/Master_Excel/Ambient Monitoring/TMDL_Stream_2010-2020.xlsx"
 
 # load the workbook
 
@@ -38,10 +39,22 @@ HC_1_Excel <-  read.xlsx(dbPath1, "HC_1", detectDates = T)
 HC_2_Excel <-  read.xlsx(dbPath1, "HC_2", detectDates = T)
 NC_1_Excel <-  read.xlsx(dbPath1, "NC_1", detectDates = T)
 WC_1_Excel <-  read.xlsx(dbPath1, "WC_1", detectDates = T)
+QC_1_Excel <- read.xlsx(dbPath1, "QC_1", detectDates = T)
+NC_2_Excel <- read.xlsx(dbPath1, "NC_2", detectDates = T)
+PR_2_Excel <- read.xlsx(dbPath1, "PR_2", detectDates = T)
+MD_1_Excel <- read.xlsx(dbPath1, "MD_1", detectDates = T)
+WD_1_Excel <- read.xlsx(dbPath1, "WD_1", detectDates = T)
+PA_1_Excel <- read.xlsx(dbPath1, "PA_1", detectDates = T)
+PA_2_Excel <- read.xlsx(dbPath1, "PA_2", detectDates = T)
+BY_1_Excel <- read.xlsx(dbPath1, "BY_1", detectDates = T)
+MH_1_Excel <- read.xlsx(dbPath1, "MH_1", detectDates = T)
+WHM_Excel <- read.xlsx(dbPath1, "WHM", detectDates = T)
 
 # Combine Worksheets
 AllCountsAmbient <- rbind(SARU_Excel, LS_1_Excel, JO_1_Excel, PM_1_Excel,
-                          NCLD_Excel, HC_1_Excel,HC_2_Excel, NC_1_Excel, WC_1_Excel)
+                          NCLD_Excel, HC_1_Excel,HC_2_Excel, NC_1_Excel, WC_1_Excel, QC_1_Excel,
+                          NC_2_Excel, WHM_Excel, PR_2_Excel, MD_1_Excel, WD_1_Excel, PA_1_Excel, PA_2_Excel,
+                          BY_1_Excel, MH_1_Excel)
 #Creat Year and Month Vectors
 
 AllCountsAmbient$Month <- month(AllCountsAmbient$Date, label = TRUE, abbr = TRUE)
@@ -54,6 +67,7 @@ AllCountsAmbient$Temp.Type <- ifelse(AllCountsAmbient$TEMP < 16, "below", "above
 AllCountsAmbient$DO.Type <- ifelse(AllCountsAmbient$DO > 9.5, "below", "above")
 AllCountsAmbient$Turbidity.Type <- ifelse(AllCountsAmbient$Turbidity < 4, "below", "above")
 
+AllCountsAmbientSummer <-subset(AllCountsAmbient, Season == "Summer")
 #______________________________________________FINAL GRAPHS_____________________________________________________________________________________________________________________
 
 
@@ -365,3 +379,60 @@ DO_2019 <- ggplot(subset(AllCountsAmbient, Year == "2019"), aes(x=Date, y=DO, gr
                                                                                                      legend.position = "none",  strip.text.x = element_text(size=12, colour = "steelblue3"))
 
 DO_2019 + scale_colour_manual(values = cols)
+
+
+#Fecal Coliform for 2013-2018
+Data2013_2018 <- subset(AllCountsAmbient, Year %in% c("2013", "2014", "2015", "2016", "2017", "2018"))
+
+ggplot(subset(Data2013_2018, Site %in% c("LS-1", "JO-1", "NCLD-1", "PM-1", "SARU")), aes(Site, Fecal.Coliform), label = sprintf("%0.2f", round(fecalmeans, digits = 2))) + 
+  stat_boxplot(geom = 'errorbar', width = 0.25, color = "darkcyan") +
+  geom_boxplot(fill = "gray97", width = 0.4, color = "darkcyan")  +
+  stat_summary(fun.y= "mean", colour="black", geom="point", 
+               shape=18, size=3,show_guide = FALSE) + 
+  labs(title = NULL, subtitle=NULL, y="Fecal Coliform (CFU)") + geom_hline(yintercept = 50, color="red", size=1) + 
+  geom_hline(yintercept = 200, color="blue", size=1) + scale_y_log10(breaks=c(1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000)) +
+  theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15)) +
+  theme_bw() + theme(axis.title.y = element_text(size=15), title = element_text(size = 18), axis.text.x = element_text(size = 12, angle = 65, vjust = 0.6),
+                     axis.text.y = element_text(size = 15), legend.title = element_text(size=18), legend.text = element_text(size=15), legend.position = "none")
+
+#looking at differenes between groups.....
+
+summaryStats(Fecal.Coliform ~ Site  , data = Data2013_2018, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+
+#LS
+LS_PM <- subset(Data2013_2018, Site %in% c("LS-1", "PM-1"))
+LS_JO <- subset(Data2013_2018, Site %in% c("LS-1", "JO-1"))
+LS_NCLD <- subset(Data2013_2018, Site %in% c("LS-1", "NCLD-1"))
+LS_SARU <- subset(Data2013_2018, Site %in% c("LS-1", "SARU"))
+summaryStats(Fecal.Coliform ~ Site  , data = LS_PM, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = LS_JO, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = LS_NCLD, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = LS_SARU, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+
+#PM
+PM_JO <- subset(Data2013_2018, Site %in% c("JO-1", "PM-1"))
+PM_NCLD <- subset(Data2013_2018, Site %in% c("NCLD-1", "PM-1"))
+PM_SARU <- subset(Data2013_2018, Site %in% c("SARU", "PM-1"))
+summaryStats(Fecal.Coliform ~ Site  , data = PM_JO, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = PM_NCLD, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = PM_SARU, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+
+#JO
+JO_NCLD <- subset(Data2013_2018, Site %in% c("NCLD-1", "JO-1"))
+JO_SARU <- subset(Data2013_2018, Site %in% c("SARU", "JO-1"))
+summaryStats(Fecal.Coliform ~ Site  , data = JO_NCLD, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = JO_SARU, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+
+#NCLD
+NCLD_SARU <- subset(Data2013_2018, Site %in% c("NCLD-1", "SARU"))
+summaryStats(Fecal.Coliform ~ Site  , data = NCLD_SARU, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+
+#WC-1
+summaryStats(Fecal.Coliform ~ Site  , data = WC_1_Excel, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Turbidity ~ Site  , data = WC_1_Excel, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Flow ~ Site  , data = WC_1_Excel, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = WC_1_Excel, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = WC_1_Excel, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+summaryStats(Fecal.Coliform ~ Site  , data = WC_1_Excel, digits = 2, p.value = TRUE, stats.in.rows = TRUE, test = "nonparametric")
+
+
